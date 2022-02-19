@@ -20,6 +20,7 @@
 @property (nonatomic, strong) IBOutlet NSTextField *tfCurrentTime;
 @property (nonatomic, strong) IBOutlet NSTextField *tfFrom;
 @property (nonatomic, strong) IBOutlet NSTextField *tfTo;
+@property (nonatomic, strong) IBOutlet NSTextField *tfSaveStatus;
 @property (nonatomic, strong) IBOutlet NSTextField *tfFolderName; // folder where to save
 @property (nonatomic, strong) IBOutlet NSTextField *tfFileName; // how to name for saving
 

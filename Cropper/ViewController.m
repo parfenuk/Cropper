@@ -15,7 +15,7 @@
 
 @implementation ViewController
 
-@synthesize audioPlayer, timer, slFull, slCropped, btnPlay1, btnPlay2, tfDurationTime, tfCurrentTime, tfFrom, tfTo, tfFolderName, tfFileName;
+@synthesize audioPlayer, timer, slFull, slCropped, btnPlay1, btnPlay2, tfDurationTime, tfCurrentTime, tfFrom, tfTo, tfSaveStatus, tfFolderName, tfFileName;
 
 NSString *open_panel_folder_path; // last successfully chosen from open panel
 NSString *full_file_path;
@@ -65,6 +65,8 @@ double second_player_offset; // in seconds
     if (err) NSLog(@"Failed to create audio player, %@",err.description);
     else { // UI preparation
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(updatePlaybackInfo) userInfo:nil repeats:YES];
+        tfFrom.stringValue = @"";
+        tfTo.stringValue = @"";
         [self activate:1];
     }
 }
@@ -114,23 +116,30 @@ double second_player_offset; // in seconds
     NSModalResponse k = [panel runModal];
     if (k == NSModalResponseOK) {
         //NSLog(@"%@\n%@",panel.URL,panel.URL.absoluteString);
-        int slash = (int)[panel.URL.absoluteString rangeOfString:@"/" options: NSBackwardsSearch].location;
-        int dot = (int)[panel.URL.absoluteString rangeOfString:@"." options: NSBackwardsSearch].location;
-        open_panel_folder_path = [panel.URL.absoluteString substringToIndex:slash];
         full_file_path = panel.URL.absoluteString;
-        NSMutableString *songName = [[panel.URL.absoluteString substringWithRange:NSMakeRange(slash+1, dot-slash-1)] mutableCopy];
+        int slash = (int)[full_file_path rangeOfString:@"/" options: NSBackwardsSearch].location;
+        int dot = (int)[full_file_path rangeOfString:@"." options: NSBackwardsSearch].location;
+        open_panel_folder_path = [full_file_path substringToIndex:slash];
+        NSMutableString *songName = [[full_file_path substringWithRange:NSMakeRange(slash+1, dot-slash-1)] mutableCopy];
         [songName replaceOccurrencesOfString:@"%20" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,songName.length)];
         tfFolderName.stringValue = songName;
         tfFileName.stringValue = songName;
-        [self loadAudioFile:panel.URL.absoluteString];
+        [self loadAudioFile:full_file_path];
     }
 }
 
 - (IBAction)actSave:(NSButton *)sender {
     
-    NSString *folderPath = [[StrFmt:@"%@/%@",open_panel_folder_path,tfFolderName.stringValue] substringFromIndex:7]; // remove "file://" prefix
+    NSMutableString *folderPath = [[[StrFmt:@"%@/%@",open_panel_folder_path,tfFolderName.stringValue] substringFromIndex:7] mutableCopy]; // remove "file://" prefix
+    [folderPath replaceOccurrencesOfString:@"%20" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,folderPath.length)];
     if (![FM fileExistsAtPath:folderPath]) {
-        [FM createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:nil];
+        NSError *err;
+        [FM createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:&err];
+        if (err) { // TODO: all errors are on screen
+            [self reportStatus:@"Folder creation error"];
+            NSLog(@"%@", err.description);
+            return;
+        }
     }
     NSString *writing_path = (sender.tag == 1 ?  [StrFmt:@"%@/%@.m4a",folderPath,tfFileName.stringValue] : [StrFmt:@"%@/%@_A.m4a",folderPath,tfFileName.stringValue]);
     NSURL *inputUrl = [NSURL URLWithString:full_file_path];
@@ -147,11 +156,16 @@ double second_player_offset; // in seconds
     [session exportAsynchronouslyWithCompletionHandler:^{
         switch (session.status) {
             case AVAssetExportSessionStatusCompleted: {
-                NSLog(@"EXPORTED!");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self reportStatus:@"Saved successfully"];
+                });
                 break;
             }
             case AVAssetExportSessionStatusFailed: {
-                NSLog(@"FAILED :( %@", session.error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self reportStatus:@"Failed to save"];
+                });
+                NSLog(@"%@", session.error.description);
                 break;
             }
             default: break;
@@ -172,10 +186,17 @@ double second_player_offset; // in seconds
     else if (sender.tag == 2) d1 -= STEP;
     else if (sender.tag == 3) d2 += STEP;
     else if (sender.tag == 4) d2 -= STEP;
+    if (btnPlay2.enabled) tfDurationTime.stringValue = [StrFmt:@"%.2f",d2-d1];
     tfFrom.stringValue = [StrFmt:@"%.2f", d1];
     tfTo.stringValue   = [StrFmt:@"%.2f", d2];
     slCropped.minValue = d1;
     slCropped.maxValue = d2;
+}
+
+- (void)reportStatus:(NSString *)statusString {
+    
+    tfSaveStatus.stringValue = statusString;
+    [tfSaveStatus performSelector:@selector(setStringValue:) withObject:@"" afterDelay:5.0];
 }
 
 - (void)setRepresentedObject:(id)representedObject {
