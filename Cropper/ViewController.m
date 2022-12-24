@@ -8,14 +8,12 @@
 #import "ViewController.h"
 
 #define FM [NSFileManager defaultManager]
-#define BASE_PATH @"/Users/Miroslav/Music/For Quiz/"
 #define StrFmt NSString stringWithFormat
-#define sPlus stringByAppendingString
 #define STEP 0.05
 
 @implementation ViewController
 
-@synthesize audioPlayer, timer, slFull, slCropped, btnPlay1, btnPlay2, tfDurationTime, tfCurrentTime, tfFrom, tfTo, tfSaveStatus, tfFolderName, tfFileName;
+@synthesize audioPlayer, timer, underlayView, slFull, slCropped, slVolume, slOutputChannelVolume, btnPlay1, btnPlay2, tfDurationTime, tfCurrentTime, tfFrom, tfTo, tfSaveStatus, tfFolderName, tfFileName;
 
 NSString *open_panel_folder_path; // last successfully chosen from open panel
 NSString *full_file_path;
@@ -25,11 +23,12 @@ double second_player_offset; // in seconds
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    underlayView.parentController = self;
 }
 
-- (void)activate:(int)k {
+- (void)activate:(NSSlider *)sliderToPlay {
     
-    if (k == 1) {
+    if (sliderToPlay == slFull) {
         btnPlay1.enabled = YES;
         slFull.enabled = YES;
         btnPlay2.enabled = NO;
@@ -41,7 +40,7 @@ double second_player_offset; // in seconds
         tfCurrentTime.stringValue = [StrFmt:@"%.2f",slFull.minValue];
         tfDurationTime.stringValue = [StrFmt:@"%.2f",audioPlayer.duration];
     }
-    else { // k == 2
+    else { // sliderToPlay == slCropped
         double d1 = tfFrom.doubleValue, d2 = tfTo.doubleValue;
         if (!(0 <= d1 && d1 < d2 && d2 <= audioPlayer.duration)) return;
         
@@ -58,16 +57,29 @@ double second_player_offset; // in seconds
     }
 }
 
-- (void)loadAudioFile:(NSString *)path {
+- (void)didLoadFileFromPath:(NSString *)path {
+    
+    full_file_path = path;
+    NSUInteger slash = [full_file_path rangeOfString:@"/" options: NSBackwardsSearch].location;
+    NSUInteger dot = [full_file_path rangeOfString:@"." options: NSBackwardsSearch].location;
+    open_panel_folder_path = [full_file_path substringToIndex:slash];
+    NSMutableString *songName = [full_file_path substringWithRange:NSMakeRange(slash+1, dot-slash-1)].mutableCopy;
+    tfFolderName.stringValue = tfFileName.stringValue = songName;
+    
+    [self loadAudioFile];
+}
+
+- (void)loadAudioFile {
     
     NSError *err;
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL URLWithString:path] error:&err];
-    if (err) NSLog(@"Failed to create audio player, %@",err.description);
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:full_file_path] error:&err];
+    audioPlayer.volume = slVolume.doubleValue / 100;
+    if (err) [self reportStatus:err.description];
     else { // UI preparation
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(updatePlaybackInfo) userInfo:nil repeats:YES];
         tfFrom.stringValue = @"";
         tfTo.stringValue = @"";
-        [self activate:1];
+        [self activate:slFull];
     }
 }
 
@@ -95,6 +107,13 @@ double second_player_offset; // in seconds
         tfCurrentTime.stringValue = [StrFmt:@"%.2f",slCropped.doubleValue - slCropped.minValue];
         if (slCropped.doubleValue == slCropped.maxValue) [audioPlayer pause];
     }
+    else if (sender == slVolume) {
+        audioPlayer.volume = slVolume.doubleValue / 100;
+    }
+    else if (sender == slOutputChannelVolume) {
+        audioPlayer.volume = slOutputChannelVolume.doubleValue / 100;
+        slVolume.doubleValue = slOutputChannelVolume.doubleValue;
+    }
 }
 
 - (IBAction)actPlayOrPause:(NSButton *)sender {
@@ -106,52 +125,57 @@ double second_player_offset; // in seconds
 - (IBAction)actCrop:(NSButton *)sender {
     
     if (audioPlayer.isPlaying) [audioPlayer stop];
-    if (btnPlay1.enabled) [self activate:2];
-    else [self activate:1];
+    if (btnPlay1.enabled) [self activate:slCropped];
+    else [self activate:slFull];
 }
 
 - (IBAction)actOpen:(NSButton *)sender {
     
     NSOpenPanel *panel = [NSOpenPanel openPanel];
-    NSModalResponse k = [panel runModal];
-    if (k == NSModalResponseOK) {
-        //NSLog(@"%@\n%@",panel.URL,panel.URL.absoluteString);
-        full_file_path = panel.URL.absoluteString;
-        int slash = (int)[full_file_path rangeOfString:@"/" options: NSBackwardsSearch].location;
-        int dot = (int)[full_file_path rangeOfString:@"." options: NSBackwardsSearch].location;
-        open_panel_folder_path = [full_file_path substringToIndex:slash];
-        NSMutableString *songName = [[full_file_path substringWithRange:NSMakeRange(slash+1, dot-slash-1)] mutableCopy];
-        [songName replaceOccurrencesOfString:@"%20" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,songName.length)];
-        tfFolderName.stringValue = songName;
-        tfFileName.stringValue = songName;
-        [self loadAudioFile:full_file_path];
+    NSModalResponse response = [panel runModal];
+    
+    if (response == NSModalResponseOK) {
+        //NSLog(@"%@\n%@\n%@",panel.URL, panel.URL.absoluteString, panel.URL.path);
+        if (![panel.URL.absoluteString hasPrefix:@"file://"]) {
+            [self reportStatus:@"Chosen object is not from file system"];
+            return;
+        }
+        [self didLoadFileFromPath:panel.URL.path];
     }
 }
 
 - (IBAction)actSave:(NSButton *)sender {
     
-    NSMutableString *folderPath = [[[StrFmt:@"%@/%@",open_panel_folder_path,tfFolderName.stringValue] substringFromIndex:7] mutableCopy]; // remove "file://" prefix
-    [folderPath replaceOccurrencesOfString:@"%20" withString:@" " options:NSLiteralSearch range:NSMakeRange(0,folderPath.length)];
+    NSMutableString *folderPath = [StrFmt:@"%@/%@",open_panel_folder_path,tfFolderName.stringValue].mutableCopy;
     if (![FM fileExistsAtPath:folderPath]) {
         NSError *err;
         [FM createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:&err];
-        if (err) { // TODO: all errors are on screen
-            [self reportStatus:@"Folder creation error"];
-            NSLog(@"%@", err.description);
+        if (err) {
+            [self reportStatus:err.description];
             return;
         }
     }
+    
     NSString *writing_path = (sender.tag == 1 ?  [StrFmt:@"%@/%@.m4a",folderPath,tfFileName.stringValue] : [StrFmt:@"%@/%@_A.m4a",folderPath,tfFileName.stringValue]);
-    NSURL *inputUrl = [NSURL URLWithString:full_file_path];
+    NSURL *inputUrl = [NSURL fileURLWithPath:full_file_path];
     NSURL *outputUrl = [NSURL fileURLWithPath:writing_path];
     if ([FM fileExistsAtPath:writing_path]) {
         [FM removeItemAtPath:writing_path error:nil];
     }
     
     AVURLAsset *asset = [AVURLAsset URLAssetWithURL:inputUrl options:@{AVURLAssetPreferPreciseDurationAndTimingKey:@YES}];
+    
+    AVMutableAudioMix *audioMix = [AVMutableAudioMix audioMix];
+    AVAssetTrack *track = [asset tracksWithMediaType:AVMediaTypeAudio].firstObject;
+    AVMutableAudioMixInputParameters *volumeParam = [AVMutableAudioMixInputParameters audioMixInputParametersWithTrack:track];
+    volumeParam.trackID = track.trackID;
+    [volumeParam setVolume:slOutputChannelVolume.doubleValue / 100 atTime:kCMTimeZero];
+    audioMix.inputParameters = @[ volumeParam ];
+    
     AVAssetExportSession *session = [AVAssetExportSession exportSessionWithAsset:asset presetName:AVAssetExportPresetAppleM4A];
     session.outputURL = outputUrl;
     session.outputFileType = AVFileTypeAppleM4A;
+    session.audioMix = audioMix;
     session.timeRange = CMTimeRangeMake(CMTimeMake(tfFrom.doubleValue*100, 100), CMTimeMake((tfTo.doubleValue - tfFrom.doubleValue)*100, 100));
     [session exportAsynchronouslyWithCompletionHandler:^{
         switch (session.status) {
@@ -163,9 +187,8 @@ double second_player_offset; // in seconds
             }
             case AVAssetExportSessionStatusFailed: {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self reportStatus:@"Failed to save"];
+                    [self reportStatus:session.error.description];
                 });
-                NSLog(@"%@", session.error.description);
                 break;
             }
             default: break;

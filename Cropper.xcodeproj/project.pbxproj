@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9BA2DBF22954A6EA001F7787 /* DragAcceptingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA2DBF12954A6EA001F7787 /* DragAcceptingView.m */; };
 		D1EB54A627BE774200BD01C9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D1EB54A527BE774200BD01C9 /* AppDelegate.m */; };
 		D1EB54A927BE774200BD01C9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1EB54A827BE774200BD01C9 /* ViewController.m */; };
 		D1EB54AB27BE774400BD01C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1EB54AA27BE774400BD01C9 /* Assets.xcassets */; };
@@ -15,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9BA2DBF02954A6EA001F7787 /* DragAcceptingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DragAcceptingView.h; sourceTree = "<group>"; };
+		9BA2DBF12954A6EA001F7787 /* DragAcceptingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DragAcceptingView.m; sourceTree = "<group>"; };
 		D1EB54A127BE774100BD01C9 /* Cropper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cropper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1EB54A427BE774200BD01C9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D1EB54A527BE774200BD01C9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -59,6 +62,8 @@
 			children = (
 				D1EB54A427BE774200BD01C9 /* AppDelegate.h */,
 				D1EB54A527BE774200BD01C9 /* AppDelegate.m */,
+				9BA2DBF02954A6EA001F7787 /* DragAcceptingView.h */,
+				9BA2DBF12954A6EA001F7787 /* DragAcceptingView.m */,
 				D1EB54A727BE774200BD01C9 /* ViewController.h */,
 				D1EB54A827BE774200BD01C9 /* ViewController.m */,
 				D1EB54AA27BE774400BD01C9 /* Assets.xcassets */,
@@ -139,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1EB54A927BE774200BD01C9 /* ViewController.m in Sources */,
+				9BA2DBF22954A6EA001F7787 /* DragAcceptingView.m in Sources */,
 				D1EB54B127BE774400BD01C9 /* main.m in Sources */,
 				D1EB54A627BE774200BD01C9 /* AppDelegate.m in Sources */,
 			);

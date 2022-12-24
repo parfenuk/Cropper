@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -683,7 +684,7 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController showSeguePresentationStyle="single" id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="Cropper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -709,6 +710,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v8N-I2-hjz" customClass="DragAcceptingView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <slider horizontalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Epd-Me-lCF">
+                                        <rect key="frame" x="425" y="4" width="24" height="108"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <sliderCell key="cell" alignment="left" maxValue="100" doubleValue="100" tickMarkPosition="right" numberOfTickMarks="11" allowsTickMarkValuesOnly="YES" sliderType="linear" id="8Mp-9K-fGq"/>
+                                        <connections>
+                                            <action selector="valueChanged:" target="XfG-lQ-9wD" id="Cz3-yg-z31"/>
+                                        </connections>
+                                    </slider>
+                                </subviews>
+                            </customView>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="4PG-rH-9CY">
                                 <rect key="frame" x="73" y="221" width="435" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -930,7 +945,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ahg-Hu-ceL">
-                                <rect key="frame" x="454" y="115" width="120" height="52"/>
+                                <rect key="frame" x="454" y="10" width="120" height="157"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" alignment="center" id="9vw-Ov-MtW">
                                     <font key="font" metaFont="system"/>
@@ -938,6 +953,14 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <slider horizontalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yQk-up-xW2">
+                                <rect key="frame" x="533" y="169" width="24" height="96"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" continuous="YES" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="right" sliderType="linear" id="QiV-Nw-aQJ"/>
+                                <connections>
+                                    <action selector="valueChanged:" target="XfG-lQ-9wD" id="qcp-Kj-JYH"/>
+                                </connections>
+                            </slider>
                         </subviews>
                     </view>
                     <connections>
@@ -945,6 +968,8 @@
                         <outlet property="btnPlay2" destination="5zP-cs-tct" id="eaQ-Xw-G7J"/>
                         <outlet property="slCropped" destination="RYI-7a-Um8" id="aZy-kz-Z1e"/>
                         <outlet property="slFull" destination="4PG-rH-9CY" id="Jxi-za-rkg"/>
+                        <outlet property="slOutputChannelVolume" destination="Epd-Me-lCF" id="DFr-fg-3Um"/>
+                        <outlet property="slVolume" destination="yQk-up-xW2" id="Uwb-CR-5EO"/>
                         <outlet property="tfCurrentTime" destination="wbr-WB-id0" id="5YA-ZQ-MtV"/>
                         <outlet property="tfDurationTime" destination="MEX-pC-EdL" id="U4K-QQ-A4e"/>
                         <outlet property="tfFileName" destination="7li-bc-huN" id="Pjf-aZ-qi7"/>
@@ -952,6 +977,7 @@
                         <outlet property="tfFrom" destination="TLP-1y-YqU" id="XfH-FH-15c"/>
                         <outlet property="tfSaveStatus" destination="Ahg-Hu-ceL" id="yJi-22-2GF"/>
                         <outlet property="tfTo" destination="jY5-gu-tfq" id="YKX-Xu-D3X"/>
+                        <outlet property="underlayView" destination="v8N-I2-hjz" id="E47-a7-4nR"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

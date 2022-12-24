@@ -23,5 +23,12 @@
     // Insert code here to tear down your application
 }
 
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag {
+    
+    if (flag) [sender.windows.firstObject orderFront:self];
+    else [sender.windows.firstObject makeKeyAndOrderFront:self];
+    
+    return YES;
+}
 
 @end
