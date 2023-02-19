@@ -9,10 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ViewController;
+
 @interface DragAcceptingView : NSView
-
-@property (nonatomic, weak) NSViewController *parentController;
-
+@property (nonatomic, weak) ViewController *parentController;
 @end
 
 NS_ASSUME_NONNULL_END

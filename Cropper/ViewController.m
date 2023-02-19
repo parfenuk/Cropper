@@ -20,6 +20,18 @@ NSString *full_file_path;
 int active_channel = 0; // playing first slider or the second one
 double second_player_offset; // in seconds
 
+- (NSString *)roundedDown:(double)d precision:(int)k {
+    
+    NSNumberFormatter *formatter = [NSNumberFormatter new];
+    formatter.numberStyle = NSNumberFormatterDecimalStyle;
+    formatter.decimalSeparator = @".";
+    formatter.minimumFractionDigits = k;
+    formatter.maximumFractionDigits = k;
+    formatter.roundingMode = NSNumberFormatterRoundFloor;
+
+    return [formatter stringFromNumber:@(d)];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -37,12 +49,14 @@ double second_player_offset; // in seconds
         slFull.minValue = 0;
         slFull.maxValue = audioPlayer.duration;
         audioPlayer.currentTime = slFull.minValue;
-        tfCurrentTime.stringValue = [StrFmt:@"%.2f",slFull.minValue];
-        tfDurationTime.stringValue = [StrFmt:@"%.2f",audioPlayer.duration];
+        tfCurrentTime.stringValue = @"0.00";
+        tfDurationTime.stringValue = [self roundedDown:slFull.maxValue precision:3];
     }
     else { // sliderToPlay == slCropped
         double d1 = tfFrom.doubleValue, d2 = tfTo.doubleValue;
-        if (!(0 <= d1 && d1 < d2 && d2 <= audioPlayer.duration)) return;
+        if (d1 < 0) d1 = 0;
+        if (d2 == 0 || d2 > audioPlayer.duration) d2 = audioPlayer.duration;
+        if (d1 >= d2) return;
         
         btnPlay1.enabled = NO;
         slFull.enabled = NO;
@@ -53,7 +67,9 @@ double second_player_offset; // in seconds
         slCropped.maxValue = d2;
         audioPlayer.currentTime = slCropped.minValue;
         tfCurrentTime.stringValue = @"0.00";
-        tfDurationTime.stringValue = [StrFmt:@"%.2f",d2-d1];
+        tfDurationTime.stringValue = [self roundedDown:d2-d1 precision:3];
+        tfFrom.stringValue = [self roundedDown:d1 precision:2];
+        tfTo.stringValue   = [self roundedDown:d2 precision:2];
     }
 }
 
@@ -87,11 +103,11 @@ double second_player_offset; // in seconds
     
     if (slFull.enabled) {
         slFull.doubleValue = audioPlayer.currentTime;
-        tfCurrentTime.stringValue = [StrFmt:@"%.2f",audioPlayer.currentTime];
+        tfCurrentTime.stringValue = [self roundedDown:audioPlayer.currentTime precision:2];
     }
-    if (slCropped.enabled) {
+    else if (slCropped.enabled) {
         slCropped.doubleValue = audioPlayer.currentTime;
-        tfCurrentTime.stringValue = [StrFmt:@"%.2f",slCropped.doubleValue - slCropped.minValue];
+        tfCurrentTime.stringValue = [self roundedDown:slCropped.doubleValue - slCropped.minValue precision:2];
         if (slCropped.doubleValue == slCropped.maxValue) [audioPlayer pause];
     }
 }
@@ -100,11 +116,11 @@ double second_player_offset; // in seconds
     
     if (sender == slFull) {
         audioPlayer.currentTime = slFull.doubleValue;
-        tfCurrentTime.stringValue = [StrFmt:@"%.2f",audioPlayer.currentTime];
+        tfCurrentTime.stringValue = [self roundedDown:audioPlayer.currentTime precision:2];
     }
     else if (sender == slCropped) {
         audioPlayer.currentTime = slCropped.doubleValue;
-        tfCurrentTime.stringValue = [StrFmt:@"%.2f",slCropped.doubleValue - slCropped.minValue];
+        tfCurrentTime.stringValue = [self roundedDown:slCropped.doubleValue - slCropped.minValue precision:2];
         if (slCropped.doubleValue == slCropped.maxValue) [audioPlayer pause];
     }
     else if (sender == slVolume) {
@@ -217,7 +233,7 @@ double second_player_offset; // in seconds
 }
 
 - (void)reportStatus:(NSString *)statusString {
-    
+    // TODO: use alerts and error message types instead
     tfSaveStatus.stringValue = statusString;
     [tfSaveStatus performSelector:@selector(setStringValue:) withObject:@"" afterDelay:5.0];
 }

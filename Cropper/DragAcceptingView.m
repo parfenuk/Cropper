@@ -26,11 +26,9 @@
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
     
-    NSURL *url = (NSURL *)[sender.draggingPasteboard readObjectsForClasses:@[ NSURL.class ] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @(true)}].firstObject;
+    NSURL *url = (NSURL *)[sender.draggingPasteboard readObjectsForClasses:@[NSURL.class] options:@{NSPasteboardURLReadingFileURLsOnlyKey: @(true)}].firstObject;
     
-    if ([parentController isKindOfClass:[ViewController class]]) {
-        [(ViewController *)parentController didLoadFileFromPath:url.path];
-    }
+    [parentController didLoadFileFromPath:url.path];
     
     return true;
 }
