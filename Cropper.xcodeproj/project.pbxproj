@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		9BA2DBF22954A6EA001F7787 /* DragAcceptingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA2DBF12954A6EA001F7787 /* DragAcceptingView.m */; };
 		D1EB54A627BE774200BD01C9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D1EB54A527BE774200BD01C9 /* AppDelegate.m */; };
-		D1EB54A927BE774200BD01C9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1EB54A827BE774200BD01C9 /* ViewController.m */; };
+		D1EB54A927BE774200BD01C9 /* CropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1EB54A827BE774200BD01C9 /* CropViewController.m */; };
 		D1EB54AB27BE774400BD01C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1EB54AA27BE774400BD01C9 /* Assets.xcassets */; };
 		D1EB54AE27BE774400BD01C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1EB54AC27BE774400BD01C9 /* Main.storyboard */; };
 		D1EB54B127BE774400BD01C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D1EB54B027BE774400BD01C9 /* main.m */; };
@@ -21,8 +21,8 @@
 		D1EB54A127BE774100BD01C9 /* Cropper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cropper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1EB54A427BE774200BD01C9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D1EB54A527BE774200BD01C9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		D1EB54A727BE774200BD01C9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D1EB54A827BE774200BD01C9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D1EB54A727BE774200BD01C9 /* CropViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CropViewController.h; sourceTree = "<group>"; };
+		D1EB54A827BE774200BD01C9 /* CropViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CropViewController.m; sourceTree = "<group>"; };
 		D1EB54AA27BE774400BD01C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D1EB54AD27BE774400BD01C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D1EB54AF27BE774400BD01C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -64,8 +64,8 @@
 				D1EB54A527BE774200BD01C9 /* AppDelegate.m */,
 				9BA2DBF02954A6EA001F7787 /* DragAcceptingView.h */,
 				9BA2DBF12954A6EA001F7787 /* DragAcceptingView.m */,
-				D1EB54A727BE774200BD01C9 /* ViewController.h */,
-				D1EB54A827BE774200BD01C9 /* ViewController.m */,
+				D1EB54A727BE774200BD01C9 /* CropViewController.h */,
+				D1EB54A827BE774200BD01C9 /* CropViewController.m */,
 				D1EB54AA27BE774400BD01C9 /* Assets.xcassets */,
 				D1EB54AC27BE774400BD01C9 /* Main.storyboard */,
 				D1EB54AF27BE774400BD01C9 /* Info.plist */,
@@ -143,7 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1EB54A927BE774200BD01C9 /* ViewController.m in Sources */,
+				D1EB54A927BE774200BD01C9 /* CropViewController.m in Sources */,
 				9BA2DBF22954A6EA001F7787 /* DragAcceptingView.m in Sources */,
 				D1EB54B127BE774400BD01C9 /* main.m in Sources */,
 				D1EB54A627BE774200BD01C9 /* AppDelegate.m in Sources */,

@@ -9,7 +9,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DragAcceptingView.h"
 
-@interface ViewController : NSViewController <NSDraggingDestination>
+@interface CropViewController : NSViewController <NSDraggingDestination>
 
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic, strong) NSTimer *timer;

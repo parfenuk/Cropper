@@ -5,13 +5,13 @@
 //  Created by Miraslau Parafeniuk on 17.02.22.
 //
 
-#import "ViewController.h"
+#import "CropViewController.h"
 
 #define FM [NSFileManager defaultManager]
 #define StrFmt NSString stringWithFormat
 #define STEP 0.05
 
-@implementation ViewController
+@implementation CropViewController
 
 @synthesize audioPlayer, timer, underlayView, slFull, slCropped, slVolume, slOutputChannelVolume, btnPlay1, btnPlay2, tfDurationTime, tfCurrentTime, tfFrom, tfTo, tfSaveStatus, tfFolderName, tfFileName;
 
@@ -28,7 +28,7 @@ double second_player_offset; // in seconds
     formatter.minimumFractionDigits = k;
     formatter.maximumFractionDigits = k;
     formatter.roundingMode = NSNumberFormatterRoundFloor;
-
+    
     return [formatter stringFromNumber:@(d)];
 }
 

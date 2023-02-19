@@ -6,7 +6,7 @@
 //
 
 #import "DragAcceptingView.h"
-#import "ViewController.h"
+#import "CropViewController.h"
 
 @implementation DragAcceptingView
 
