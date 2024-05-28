@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -674,7 +674,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Cropper" customModuleProvider="target"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -704,12 +704,12 @@
         <!--Crop View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="CropViewController" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="CropViewController" customModule="Cropper" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v8N-I2-hjz" customClass="DragAcceptingView">
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v8N-I2-hjz" customClass="DragAcceptingView" customModule="Cropper" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
@@ -718,7 +718,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <sliderCell key="cell" alignment="left" maxValue="100" doubleValue="100" tickMarkPosition="right" numberOfTickMarks="11" allowsTickMarkValuesOnly="YES" sliderType="linear" id="8Mp-9K-fGq"/>
                                         <connections>
-                                            <action selector="valueChanged:" target="XfG-lQ-9wD" id="Cz3-yg-z31"/>
+                                            <action selector="valueChanged:" target="XfG-lQ-9wD" id="12L-mp-Bvu"/>
                                         </connections>
                                     </slider>
                                 </subviews>
@@ -728,7 +728,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="100" tickMarkPosition="above" sliderType="linear" id="aUW-1d-ARA"/>
                                 <connections>
-                                    <action selector="valueChanged:" target="XfG-lQ-9wD" id="6r5-nw-CT4"/>
+                                    <action selector="valueChanged:" target="XfG-lQ-9wD" id="itD-Lh-k3N"/>
                                 </connections>
                             </slider>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="RYI-7a-Um8">
@@ -736,10 +736,10 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="100" tickMarkPosition="above" sliderType="linear" id="d2Y-a1-zmF"/>
                                 <connections>
-                                    <action selector="valueChanged:" target="XfG-lQ-9wD" id="l6T-P1-4Vd"/>
+                                    <action selector="valueChanged:" target="XfG-lQ-9wD" id="2AZ-3c-VK7"/>
                                 </connections>
                             </slider>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wbr-WB-id0">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wbr-WB-id0">
                                 <rect key="frame" x="73" y="264" width="56" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="0:00.00" id="omj-MD-YNU">
@@ -748,7 +748,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MEX-pC-EdL">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MEX-pC-EdL">
                                 <rect key="frame" x="452" y="264" width="56" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="3:54.25" id="d7K-Mo-9Zi">
@@ -757,7 +757,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TLP-1y-YqU">
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TLP-1y-YqU">
                                 <rect key="frame" x="113" y="151" width="82" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="From" drawsBackground="YES" id="Jcv-02-W9F">
@@ -766,7 +766,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jY5-gu-tfq">
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jY5-gu-tfq">
                                 <rect key="frame" x="203" y="151" width="82" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="To" drawsBackground="YES" id="GK4-77-9Q8">
@@ -775,7 +775,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7li-bc-huN">
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7li-bc-huN">
                                 <rect key="frame" x="87" y="16" width="217" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Filename" drawsBackground="YES" id="Mer-0V-wWF">
@@ -784,7 +784,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hRA-2U-Qis">
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hRA-2U-Qis">
                                 <rect key="frame" x="87" y="47" width="217" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Folder" drawsBackground="YES" id="8qx-MX-ndP">
@@ -793,7 +793,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="bOj-3y-TEr">
+                            <button tag="1" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bOj-3y-TEr">
                                 <rect key="frame" x="116" y="120" width="43" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="+" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="k7l-dh-7as">
@@ -801,10 +801,10 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actChangeTimeRange:" target="XfG-lQ-9wD" id="Hw5-iy-t5Q"/>
+                                    <action selector="actChangeTimeRange:" target="XfG-lQ-9wD" id="ofl-Ga-ESJ"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="j7Q-De-O7q">
+                            <button tag="4" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j7Q-De-O7q">
                                 <rect key="frame" x="241" y="120" width="41" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="-" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="orP-js-26h">
@@ -812,10 +812,10 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actChangeTimeRange:" target="XfG-lQ-9wD" id="h27-xw-Jmg"/>
+                                    <action selector="actChangeTimeRange:" target="XfG-lQ-9wD" id="l2U-mn-hle"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="ErR-dM-z2o">
+                            <button tag="3" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ErR-dM-z2o">
                                 <rect key="frame" x="205" y="120" width="43" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="+" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mRk-ke-BG3">
@@ -823,10 +823,10 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actChangeTimeRange:" target="XfG-lQ-9wD" id="afX-1G-EhI"/>
+                                    <action selector="actChangeTimeRange:" target="XfG-lQ-9wD" id="hhe-G4-lia"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="pMs-ku-Txe">
+                            <button tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pMs-ku-Txe">
                                 <rect key="frame" x="151" y="120" width="41" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="-" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="MeJ-Oa-YaX">
@@ -834,7 +834,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actChangeTimeRange:" target="XfG-lQ-9wD" id="ewI-Ip-5k2"/>
+                                    <action selector="actChangeTimeRange:" target="XfG-lQ-9wD" id="txi-s0-lq7"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kgt-09-slF">
@@ -845,10 +845,10 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actCrop:" target="XfG-lQ-9wD" id="Gfs-D1-AHA"/>
+                                    <action selector="actCrop:" target="XfG-lQ-9wD" id="Faq-c3-WNW"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="CNp-Zm-oUG">
+                            <button tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CNp-Zm-oUG">
                                 <rect key="frame" x="317" y="10" width="104" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" title="Save as answer" bezelStyle="shadowlessSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9ZV-px-hT1">
@@ -856,10 +856,10 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actSave:" target="XfG-lQ-9wD" id="BVc-do-BXN"/>
+                                    <action selector="actSave:" target="XfG-lQ-9wD" id="Azd-lE-Mi3"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="KK9-lQ-aAN">
+                            <button tag="1" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KK9-lQ-aAN">
                                 <rect key="frame" x="317" y="47" width="104" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" title="Save" bezelStyle="shadowlessSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="APK-yK-IfR">
@@ -867,10 +867,10 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actSave:" target="XfG-lQ-9wD" id="yqI-ce-xab"/>
+                                    <action selector="actSave:" target="XfG-lQ-9wD" id="R2Y-8C-eY0"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="p3O-So-fDe">
+                            <button tag="1" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p3O-So-fDe">
                                 <rect key="frame" x="14" y="226" width="46" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundRect" title="P" bezelStyle="roundedRect" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gpD-OM-DU0">
@@ -878,10 +878,10 @@
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actPlayOrPause:" target="XfG-lQ-9wD" id="yNc-s3-Wbm"/>
+                                    <action selector="actPlayOrPause:" target="XfG-lQ-9wD" id="gcr-VP-Alg"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="5zP-cs-tct">
+                            <button tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5zP-cs-tct">
                                 <rect key="frame" x="14" y="192" width="46" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundRect" title="P" bezelStyle="roundedRect" alignment="center" enabled="NO" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dXb-Wq-SWh">
@@ -889,10 +889,10 @@
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actPlayOrPause:" target="XfG-lQ-9wD" id="xFo-L6-Xzv"/>
+                                    <action selector="actPlayOrPause:" target="XfG-lQ-9wD" id="04z-h3-KOQ"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="xQH-0T-bpc">
+                            <button tag="1" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xQH-0T-bpc">
                                 <rect key="frame" x="144" y="255" width="86" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Set from" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="n1o-jo-1li">
@@ -900,10 +900,10 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actSetTime:" target="XfG-lQ-9wD" id="oIu-FG-NXR"/>
+                                    <action selector="actSetTime:" target="XfG-lQ-9wD" id="G6k-Xz-RwO"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="U7y-28-pNk">
+                            <button tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U7y-28-pNk">
                                 <rect key="frame" x="228" y="255" width="70" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Set to" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="z5k-za-GBD">
@@ -911,10 +911,10 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actSetTime:" target="XfG-lQ-9wD" id="zbT-7b-OYs"/>
+                                    <action selector="actSetTime:" target="XfG-lQ-9wD" id="x9W-et-kbz"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="dfD-ub-8Sp">
+                            <button tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dfD-ub-8Sp">
                                 <rect key="frame" x="317" y="84" width="104" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" title="Open..." bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="C3R-GM-ZbZ">
@@ -922,10 +922,10 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="actOpen:" target="XfG-lQ-9wD" id="MNf-Vm-FLL"/>
+                                    <action selector="actOpen:" target="XfG-lQ-9wD" id="W2U-93-FBF"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jQf-PF-LYj">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jQf-PF-LYj">
                                 <rect key="frame" x="24" y="50" width="43" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Folder" id="241-7C-4tK">
@@ -934,7 +934,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vjw-qF-ndh">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vjw-qF-ndh">
                                 <rect key="frame" x="14" y="19" width="62" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="File name" id="vss-kg-faq">
@@ -943,7 +943,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ahg-Hu-ceL">
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ahg-Hu-ceL">
                                 <rect key="frame" x="454" y="10" width="120" height="157"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" alignment="center" id="9vw-Ov-MtW">
@@ -957,26 +957,26 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" continuous="YES" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="right" sliderType="linear" id="QiV-Nw-aQJ"/>
                                 <connections>
-                                    <action selector="valueChanged:" target="XfG-lQ-9wD" id="qcp-Kj-JYH"/>
+                                    <action selector="valueChanged:" target="XfG-lQ-9wD" id="U43-sF-qfg"/>
                                 </connections>
                             </slider>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="btnPlay1" destination="p3O-So-fDe" id="WP7-LR-QWe"/>
-                        <outlet property="btnPlay2" destination="5zP-cs-tct" id="eaQ-Xw-G7J"/>
-                        <outlet property="slCropped" destination="RYI-7a-Um8" id="aZy-kz-Z1e"/>
-                        <outlet property="slFull" destination="4PG-rH-9CY" id="Jxi-za-rkg"/>
-                        <outlet property="slOutputChannelVolume" destination="Epd-Me-lCF" id="DFr-fg-3Um"/>
-                        <outlet property="slVolume" destination="yQk-up-xW2" id="Uwb-CR-5EO"/>
-                        <outlet property="tfCurrentTime" destination="wbr-WB-id0" id="5YA-ZQ-MtV"/>
-                        <outlet property="tfDurationTime" destination="MEX-pC-EdL" id="U4K-QQ-A4e"/>
-                        <outlet property="tfFileName" destination="7li-bc-huN" id="Pjf-aZ-qi7"/>
-                        <outlet property="tfFolderName" destination="hRA-2U-Qis" id="oQU-xt-0vC"/>
-                        <outlet property="tfFrom" destination="TLP-1y-YqU" id="XfH-FH-15c"/>
-                        <outlet property="tfSaveStatus" destination="Ahg-Hu-ceL" id="yJi-22-2GF"/>
-                        <outlet property="tfTo" destination="jY5-gu-tfq" id="YKX-Xu-D3X"/>
-                        <outlet property="underlayView" destination="v8N-I2-hjz" id="E47-a7-4nR"/>
+                        <outlet property="btnPlay1" destination="p3O-So-fDe" id="AyD-eT-i8D"/>
+                        <outlet property="btnPlay2" destination="5zP-cs-tct" id="LWA-En-Sd4"/>
+                        <outlet property="slCropped" destination="RYI-7a-Um8" id="YY1-0F-U3j"/>
+                        <outlet property="slFull" destination="4PG-rH-9CY" id="dR7-Xh-65d"/>
+                        <outlet property="slOutputChannelVolume" destination="Epd-Me-lCF" id="bPf-AA-5cz"/>
+                        <outlet property="slVolume" destination="yQk-up-xW2" id="bAi-e2-x8q"/>
+                        <outlet property="tfCurrentTime" destination="wbr-WB-id0" id="Btw-KB-peG"/>
+                        <outlet property="tfDurationTime" destination="MEX-pC-EdL" id="Gno-lK-tb0"/>
+                        <outlet property="tfFileName" destination="7li-bc-huN" id="XEW-OQ-CJi"/>
+                        <outlet property="tfFolderName" destination="hRA-2U-Qis" id="Ao4-f4-A6M"/>
+                        <outlet property="tfFrom" destination="TLP-1y-YqU" id="TYj-9r-q3Y"/>
+                        <outlet property="tfSaveStatus" destination="Ahg-Hu-ceL" id="jUa-hM-0PF"/>
+                        <outlet property="tfTo" destination="jY5-gu-tfq" id="Iz2-9U-8oQ"/>
+                        <outlet property="underlayView" destination="v8N-I2-hjz" id="l2H-Bg-cPe"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

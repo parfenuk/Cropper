@@ -3,35 +3,31 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9BA2DBF22954A6EA001F7787 /* DragAcceptingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA2DBF12954A6EA001F7787 /* DragAcceptingView.m */; };
-		D1EB54A627BE774200BD01C9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D1EB54A527BE774200BD01C9 /* AppDelegate.m */; };
-		D1EB54A927BE774200BD01C9 /* CropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1EB54A827BE774200BD01C9 /* CropViewController.m */; };
-		D1EB54AB27BE774400BD01C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1EB54AA27BE774400BD01C9 /* Assets.xcassets */; };
-		D1EB54AE27BE774400BD01C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1EB54AC27BE774400BD01C9 /* Main.storyboard */; };
-		D1EB54B127BE774400BD01C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D1EB54B027BE774400BD01C9 /* main.m */; };
+		DEC7692C2C065DAE00B17874 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC7692B2C065DAE00B17874 /* AppDelegate.swift */; };
+		DEC7692E2C065DAE00B17874 /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC7692D2C065DAE00B17874 /* CropViewController.swift */; };
+		DEC769302C065DB000B17874 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEC7692F2C065DB000B17874 /* Assets.xcassets */; };
+		DEC769332C065DB000B17874 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEC769312C065DB000B17874 /* Main.storyboard */; };
+		DEC7693B2C065F2600B17874 /* DragAcceptingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC7693A2C065F2500B17874 /* DragAcceptingView.swift */; };
+		DEC7693D2C0661E500B17874 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC7693C2C0661E500B17874 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9BA2DBF02954A6EA001F7787 /* DragAcceptingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DragAcceptingView.h; sourceTree = "<group>"; };
-		9BA2DBF12954A6EA001F7787 /* DragAcceptingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DragAcceptingView.m; sourceTree = "<group>"; };
-		D1EB54A127BE774100BD01C9 /* Cropper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cropper.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D1EB54A427BE774200BD01C9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D1EB54A527BE774200BD01C9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		D1EB54A727BE774200BD01C9 /* CropViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CropViewController.h; sourceTree = "<group>"; };
-		D1EB54A827BE774200BD01C9 /* CropViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CropViewController.m; sourceTree = "<group>"; };
-		D1EB54AA27BE774400BD01C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D1EB54AD27BE774400BD01C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D1EB54AF27BE774400BD01C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D1EB54B027BE774400BD01C9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D1EB54B227BE774400BD01C9 /* Cropper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cropper.entitlements; sourceTree = "<group>"; };
+		DEC769282C065DAE00B17874 /* Cropper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cropper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEC7692B2C065DAE00B17874 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DEC7692D2C065DAE00B17874 /* CropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
+		DEC7692F2C065DB000B17874 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DEC769322C065DB000B17874 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DEC769342C065DB000B17874 /* Cropper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cropper.entitlements; sourceTree = "<group>"; };
+		DEC7693A2C065F2500B17874 /* DragAcceptingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragAcceptingView.swift; sourceTree = "<group>"; };
+		DEC7693C2C0661E500B17874 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D1EB549E27BE774100BD01C9 /* Frameworks */ = {
+		DEC769252C065DAE00B17874 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,36 +37,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D1EB549827BE774100BD01C9 = {
+		DEC7691F2C065DAE00B17874 = {
 			isa = PBXGroup;
 			children = (
-				D1EB54A327BE774100BD01C9 /* Cropper */,
-				D1EB54A227BE774100BD01C9 /* Products */,
+				DEC7692A2C065DAE00B17874 /* Cropper */,
+				DEC769292C065DAE00B17874 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		D1EB54A227BE774100BD01C9 /* Products */ = {
+		DEC769292C065DAE00B17874 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D1EB54A127BE774100BD01C9 /* Cropper.app */,
+				DEC769282C065DAE00B17874 /* Cropper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D1EB54A327BE774100BD01C9 /* Cropper */ = {
+		DEC7692A2C065DAE00B17874 /* Cropper */ = {
 			isa = PBXGroup;
 			children = (
-				D1EB54A427BE774200BD01C9 /* AppDelegate.h */,
-				D1EB54A527BE774200BD01C9 /* AppDelegate.m */,
-				9BA2DBF02954A6EA001F7787 /* DragAcceptingView.h */,
-				9BA2DBF12954A6EA001F7787 /* DragAcceptingView.m */,
-				D1EB54A727BE774200BD01C9 /* CropViewController.h */,
-				D1EB54A827BE774200BD01C9 /* CropViewController.m */,
-				D1EB54AA27BE774400BD01C9 /* Assets.xcassets */,
-				D1EB54AC27BE774400BD01C9 /* Main.storyboard */,
-				D1EB54AF27BE774400BD01C9 /* Info.plist */,
-				D1EB54B027BE774400BD01C9 /* main.m */,
-				D1EB54B227BE774400BD01C9 /* Cropper.entitlements */,
+				DEC7692B2C065DAE00B17874 /* AppDelegate.swift */,
+				DEC7693C2C0661E500B17874 /* Extensions.swift */,
+				DEC7693A2C065F2500B17874 /* DragAcceptingView.swift */,
+				DEC7692D2C065DAE00B17874 /* CropViewController.swift */,
+				DEC7692F2C065DB000B17874 /* Assets.xcassets */,
+				DEC769312C065DB000B17874 /* Main.storyboard */,
+				DEC769342C065DB000B17874 /* Cropper.entitlements */,
 			);
 			path = Cropper;
 			sourceTree = "<group>";
@@ -78,13 +70,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D1EB54A027BE774100BD01C9 /* Cropper */ = {
+		DEC769272C065DAE00B17874 /* Cropper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D1EB54B527BE774400BD01C9 /* Build configuration list for PBXNativeTarget "Cropper" */;
+			buildConfigurationList = DEC769372C065DB000B17874 /* Build configuration list for PBXNativeTarget "Cropper" */;
 			buildPhases = (
-				D1EB549D27BE774100BD01C9 /* Sources */,
-				D1EB549E27BE774100BD01C9 /* Frameworks */,
-				D1EB549F27BE774100BD01C9 /* Resources */,
+				DEC769242C065DAE00B17874 /* Sources */,
+				DEC769252C065DAE00B17874 /* Frameworks */,
+				DEC769262C065DAE00B17874 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -92,71 +84,73 @@
 			);
 			name = Cropper;
 			productName = Cropper;
-			productReference = D1EB54A127BE774100BD01C9 /* Cropper.app */;
+			productReference = DEC769282C065DAE00B17874 /* Cropper.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D1EB549927BE774100BD01C9 /* Project object */ = {
+		DEC769202C065DAE00B17874 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1250;
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1510;
+				LastUpgradeCheck = 1510;
 				TargetAttributes = {
-					D1EB54A027BE774100BD01C9 = {
-						CreatedOnToolsVersion = 12.5.1;
+					DEC769272C065DAE00B17874 = {
+						CreatedOnToolsVersion = 15.1;
 					};
 				};
 			};
-			buildConfigurationList = D1EB549C27BE774100BD01C9 /* Build configuration list for PBXProject "Cropper" */;
-			compatibilityVersion = "Xcode 9.3";
+			buildConfigurationList = DEC769232C065DAE00B17874 /* Build configuration list for PBXProject "Cropper" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = D1EB549827BE774100BD01C9;
-			productRefGroup = D1EB54A227BE774100BD01C9 /* Products */;
+			mainGroup = DEC7691F2C065DAE00B17874;
+			productRefGroup = DEC769292C065DAE00B17874 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D1EB54A027BE774100BD01C9 /* Cropper */,
+				DEC769272C065DAE00B17874 /* Cropper */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D1EB549F27BE774100BD01C9 /* Resources */ = {
+		DEC769262C065DAE00B17874 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1EB54AB27BE774400BD01C9 /* Assets.xcassets in Resources */,
-				D1EB54AE27BE774400BD01C9 /* Main.storyboard in Resources */,
+				DEC769302C065DB000B17874 /* Assets.xcassets in Resources */,
+				DEC769332C065DB000B17874 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D1EB549D27BE774100BD01C9 /* Sources */ = {
+		DEC769242C065DAE00B17874 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1EB54A927BE774200BD01C9 /* CropViewController.m in Sources */,
-				9BA2DBF22954A6EA001F7787 /* DragAcceptingView.m in Sources */,
-				D1EB54B127BE774400BD01C9 /* main.m in Sources */,
-				D1EB54A627BE774200BD01C9 /* AppDelegate.m in Sources */,
+				DEC7692E2C065DAE00B17874 /* CropViewController.swift in Sources */,
+				DEC7693B2C065F2600B17874 /* DragAcceptingView.swift in Sources */,
+				DEC7692C2C065DAE00B17874 /* AppDelegate.swift in Sources */,
+				DEC7693D2C0661E500B17874 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		D1EB54AC27BE774400BD01C9 /* Main.storyboard */ = {
+		DEC769312C065DB000B17874 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D1EB54AD27BE774400BD01C9 /* Base */,
+				DEC769322C065DB000B17874 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -164,14 +158,14 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		D1EB54B327BE774400BD01C9 /* Debug */ = {
+		DEC769352C065DB000B17874 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -201,7 +195,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -215,22 +210,25 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		D1EB54B427BE774400BD01C9 /* Release */ = {
+		DEC769362C065DB000B17874 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -260,7 +258,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -268,14 +267,16 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
 		};
-		D1EB54B627BE774400BD01C9 /* Debug */ = {
+		DEC769382C065DB000B17874 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -283,19 +284,26 @@
 				CODE_SIGN_ENTITLEMENTS = Cropper/Cropper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = LM4HRJE2J8;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8PXUMMQJY6;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = Cropper/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = BSU.Cropper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		D1EB54B727BE774400BD01C9 /* Release */ = {
+		DEC769392C065DB000B17874 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -303,40 +311,47 @@
 				CODE_SIGN_ENTITLEMENTS = Cropper/Cropper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = LM4HRJE2J8;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8PXUMMQJY6;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = Cropper/Info.plist;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = BSU.Cropper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D1EB549C27BE774100BD01C9 /* Build configuration list for PBXProject "Cropper" */ = {
+		DEC769232C065DAE00B17874 /* Build configuration list for PBXProject "Cropper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D1EB54B327BE774400BD01C9 /* Debug */,
-				D1EB54B427BE774400BD01C9 /* Release */,
+				DEC769352C065DB000B17874 /* Debug */,
+				DEC769362C065DB000B17874 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D1EB54B527BE774400BD01C9 /* Build configuration list for PBXNativeTarget "Cropper" */ = {
+		DEC769372C065DB000B17874 /* Build configuration list for PBXNativeTarget "Cropper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D1EB54B627BE774400BD01C9 /* Debug */,
-				D1EB54B727BE774400BD01C9 /* Release */,
+				DEC769382C065DB000B17874 /* Debug */,
+				DEC769392C065DB000B17874 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D1EB549927BE774100BD01C9 /* Project object */;
+	rootObject = DEC769202C065DAE00B17874 /* Project object */;
 }
