@@ -716,11 +716,22 @@
                                     <slider horizontalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Epd-Me-lCF">
                                         <rect key="frame" x="425" y="4" width="24" height="108"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <sliderCell key="cell" alignment="left" maxValue="100" doubleValue="100" tickMarkPosition="right" numberOfTickMarks="11" allowsTickMarkValuesOnly="YES" sliderType="linear" id="8Mp-9K-fGq"/>
+                                        <sliderCell key="cell" continuous="YES" alignment="left" maxValue="100" doubleValue="100" tickMarkPosition="right" numberOfTickMarks="21" allowsTickMarkValuesOnly="YES" sliderType="linear" id="8Mp-9K-fGq"/>
                                         <connections>
                                             <action selector="valueChanged:" target="XfG-lQ-9wD" id="12L-mp-Bvu"/>
                                         </connections>
                                     </slider>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZG2-HA-K82">
+                                        <rect key="frame" x="315" y="85" width="108" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="check" title="Vol coef 1.00" bezelStyle="regularSquare" imagePosition="left" inset="2" id="HMr-Ip-FNi">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="onCheckBoxToggle:" target="XfG-lQ-9wD" id="TZV-C1-DZL"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </customView>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="4PG-rH-9CY">
@@ -914,17 +925,6 @@
                                     <action selector="actSetTime:" target="XfG-lQ-9wD" id="x9W-et-kbz"/>
                                 </connections>
                             </button>
-                            <button tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dfD-ub-8Sp">
-                                <rect key="frame" x="317" y="84" width="104" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" title="Open..." bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="C3R-GM-ZbZ">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="actOpen:" target="XfG-lQ-9wD" id="W2U-93-FBF"/>
-                                </connections>
-                            </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jQf-PF-LYj">
                                 <rect key="frame" x="24" y="50" width="43" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -960,11 +960,23 @@
                                     <action selector="valueChanged:" target="XfG-lQ-9wD" id="U43-sF-qfg"/>
                                 </connections>
                             </slider>
+                            <button tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dfD-ub-8Sp">
+                                <rect key="frame" x="487" y="10" width="104" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="Open..." bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="C3R-GM-ZbZ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="actOpen:" target="XfG-lQ-9wD" id="W2U-93-FBF"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="btnPlay1" destination="p3O-So-fDe" id="AyD-eT-i8D"/>
                         <outlet property="btnPlay2" destination="5zP-cs-tct" id="LWA-En-Sd4"/>
+                        <outlet property="cbVolumeIncrease" destination="ZG2-HA-K82" id="K1X-CM-dtb"/>
                         <outlet property="slCropped" destination="RYI-7a-Um8" id="YY1-0F-U3j"/>
                         <outlet property="slFull" destination="4PG-rH-9CY" id="dR7-Xh-65d"/>
                         <outlet property="slOutputChannelVolume" destination="Epd-Me-lCF" id="bPf-AA-5cz"/>

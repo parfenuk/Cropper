@@ -35,6 +35,7 @@ class CropViewController: NSViewController, NSDraggingDestination {
     @IBOutlet weak var slOutputChannelVolume: NSSlider!
     @IBOutlet weak var btnPlay1: NSButton!
     @IBOutlet weak var btnPlay2: NSButton!
+    @IBOutlet weak var cbVolumeIncrease: NSButton!
     @IBOutlet weak var tfDurationTime: NSTextField!
     @IBOutlet weak var tfCurrentTime: NSTextField!
     @IBOutlet weak var tfFrom: NSTextField!
@@ -52,6 +53,12 @@ class CropViewController: NSViewController, NSDraggingDestination {
         super.viewDidLoad()
 
         underlayView.parent = self
+    }
+    
+    var currentVolumeCoef: Float {
+        cbVolumeIncrease.state == .on
+        ? Float(1 + slOutputChannelVolume.doubleValue/25)
+        : Float(slOutputChannelVolume.doubleValue/100)
     }
     
     private func changeControlStates() {
@@ -131,6 +138,12 @@ class CropViewController: NSViewController, NSDraggingDestination {
         }
     }
     
+    @IBAction func onCheckBoxToggle(_ sender: NSButton) {
+        if sender == cbVolumeIncrease {
+            cbVolumeIncrease.title = String(format: "Vol coef %.2f", currentVolumeCoef)
+        }
+    }
+    
     @IBAction func valueChanged(_ sender: NSSlider) {
         switch sender {
         case slFull:
@@ -144,8 +157,11 @@ class CropViewController: NSViewController, NSDraggingDestination {
         case slVolume:
             audioPlayer.volume = Float(slVolume.doubleValue / 100)
         case slOutputChannelVolume:
-            audioPlayer.volume = Float(slOutputChannelVolume.doubleValue / 100)
-            slVolume.doubleValue = slOutputChannelVolume.doubleValue
+            if cbVolumeIncrease.state == .off {
+                audioPlayer.volume = Float(slOutputChannelVolume.doubleValue / 100)
+                slVolume.doubleValue = slOutputChannelVolume.doubleValue
+            }
+            cbVolumeIncrease.title = String(format: "Vol coef %.2f", currentVolumeCoef)
         default: break
         }
     }
@@ -211,7 +227,7 @@ class CropViewController: NSViewController, NSDraggingDestination {
     
     @IBAction func actSave(_ sender: NSButton) {
         
-        var folderPath = "\(openPanelFolderPath)/\(tfFolderName.stringValue)"
+        let folderPath = "\(openPanelFolderPath)/\(tfFolderName.stringValue)"
         if !FM.fileExists(atPath: folderPath) {
             do {
                 try FM.createDirectory(atPath: folderPath, withIntermediateDirectories: false)
@@ -237,7 +253,7 @@ class CropViewController: NSViewController, NSDraggingDestination {
         guard let track = asset.tracks(withMediaType: .audio).first else { return }
         let volumeParam = AVMutableAudioMixInputParameters(track: track)
         volumeParam.trackID = track.trackID
-        volumeParam.setVolume(Float(slOutputChannelVolume.doubleValue / 100), at: .zero)
+        volumeParam.setVolume(currentVolumeCoef, at: .zero)
         audioMix.inputParameters = [volumeParam]
         
         let session = AVAssetExportSession(asset: asset, 
