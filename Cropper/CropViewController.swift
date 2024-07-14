@@ -22,6 +22,11 @@ class CropViewController: NSViewController, NSDraggingDestination {
         }
     }
     
+    enum Status {
+        case ok
+        case error(String)
+    }
+    
     let FM = FileManager.default
     let STEP = 0.05
     
@@ -36,10 +41,14 @@ class CropViewController: NSViewController, NSDraggingDestination {
     @IBOutlet weak var btnPlay1: NSButton!
     @IBOutlet weak var btnPlay2: NSButton!
     @IBOutlet weak var cbVolumeIncrease: NSButton!
+    @IBOutlet weak var stepperFadeIn: NSStepper!
+    @IBOutlet weak var stepperFadeOut: NSStepper!
     @IBOutlet weak var tfDurationTime: NSTextField!
     @IBOutlet weak var tfCurrentTime: NSTextField!
     @IBOutlet weak var tfFrom: NSTextField!
     @IBOutlet weak var tfTo: NSTextField!
+    @IBOutlet weak var tfFadeIn: NSTextField!
+    @IBOutlet weak var tfFadeOut: NSTextField!
     @IBOutlet weak var tfSaveStatus: NSTextField!
     @IBOutlet weak var tfFolderName: NSTextField! // folder where to save
     @IBOutlet weak var tfFileName: NSTextField! // how to name for saving
@@ -96,6 +105,13 @@ class CropViewController: NSViewController, NSDraggingDestination {
     }
     
     func didLoadFile(from path: String) {
+        
+        // Reset to default parameters
+        [stepperFadeIn, stepperFadeOut].forEach { $0?.doubleValue = 0 }
+        [tfFadeIn, tfFadeOut].forEach { $0?.stringValue = "0.0" }
+        slOutputChannelVolume.doubleValue = 100
+        cbVolumeIncrease.state = .off
+        cbVolumeIncrease.title = "Vol coef 1.00"
 
         fullFilePath = path
         guard let slash = fullFilePath.range(of: "/", options: .backwards),
@@ -115,7 +131,7 @@ class CropViewController: NSViewController, NSDraggingDestination {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: NSURL.fileURL(withPath: fullFilePath) as URL)
         } catch (let error) {
-            reportStatus(error.localizedDescription)
+            reportStatus(.error(error.localizedDescription))
             return
         }
         
@@ -166,6 +182,16 @@ class CropViewController: NSViewController, NSDraggingDestination {
         }
     }
     
+    @IBAction func stepperValueChanged(_ sender: NSStepper) {
+        switch sender {
+        case stepperFadeIn:
+            tfFadeIn.stringValue = "\(sender.doubleValue / 2)"
+        case stepperFadeOut:
+            tfFadeOut.stringValue = "\(sender.doubleValue / 2)"
+        default: break
+        }
+    }
+    
     @IBAction func actPlayOrPause(_ sender: NSButton) {
         if audioPlayer.isPlaying { audioPlayer.pause() }
         else { audioPlayer.play() }
@@ -183,7 +209,7 @@ class CropViewController: NSViewController, NSDraggingDestination {
         
         if response == .OK {
             if panel.url?.absoluteString.hasPrefix("file://") != true {
-                reportStatus("Chosen object is not from file system")
+                reportStatus(.error("Chosen object is not from file system"))
             } else {
                 didLoadFile(from: panel.url!.path(percentEncoded: false))
             }
@@ -217,11 +243,20 @@ class CropViewController: NSViewController, NSDraggingDestination {
         slCropped.maxValue = d2
     }
     
-    func reportStatus(_ statusString: String) {
-        // TODO: use alerts and error message types instead
-        tfSaveStatus.stringValue = statusString
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
-            self?.tfSaveStatus.stringValue = ""
+    func reportStatus(_ status: Status) {
+        switch status {
+        case .ok:
+            tfSaveStatus.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+                self?.tfSaveStatus.isHidden = true
+            }
+        case .error(let message):
+            let alert = NSAlert()
+            alert.accessoryView = NSView(frame: NSMakeRect(0, 0, 400, 100))
+            alert.messageText = message
+            alert.addButton(withTitle: "OK")
+            alert.alertStyle = .informational
+            alert.runModal()
         }
     }
     
@@ -232,7 +267,7 @@ class CropViewController: NSViewController, NSDraggingDestination {
             do {
                 try FM.createDirectory(atPath: folderPath, withIntermediateDirectories: false)
             } catch (let error) {
-                reportStatus(error.localizedDescription)
+                reportStatus(.error(error.localizedDescription))
                 return
             }
         }
@@ -248,12 +283,26 @@ class CropViewController: NSViewController, NSDraggingDestination {
         }
         
         let asset = AVURLAsset(url: inputUrl, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
-        
-        let audioMix = AVMutableAudioMix()
         guard let track = asset.tracks(withMediaType: .audio).first else { return }
+        
+        let startTime = CMTimeMake(value: Int64(tfFrom.doubleValue*100), timescale: 100)
+        let endTime = CMTimeMake(value: Int64(tfTo.doubleValue*100), timescale: 100)
+        let duration = CMTimeSubtract(endTime, startTime)
+        
         let volumeParam = AVMutableAudioMixInputParameters(track: track)
         volumeParam.trackID = track.trackID
         volumeParam.setVolume(currentVolumeCoef, at: .zero)
+        
+        if stepperFadeIn.integerValue > 0 {
+            let fadeInDuration = CMTime(seconds: stepperFadeIn.doubleValue / 2, preferredTimescale: 100)
+            volumeParam.setVolumeRamp(fromStartVolume: 0.0, toEndVolume: currentVolumeCoef, timeRange: CMTimeRange(start: startTime, duration: fadeInDuration))
+        }
+        if stepperFadeOut.integerValue > 0 {
+            let fadeOutDuration = CMTime(seconds: stepperFadeOut.doubleValue / 2, preferredTimescale: 100)
+            volumeParam.setVolumeRamp(fromStartVolume: currentVolumeCoef, toEndVolume: 0.0, timeRange: CMTimeRange(start: CMTimeSubtract(endTime, fadeOutDuration), duration: fadeOutDuration))
+        }
+        
+        let audioMix = AVMutableAudioMix()
         audioMix.inputParameters = [volumeParam]
         
         let session = AVAssetExportSession(asset: asset, 
@@ -261,18 +310,17 @@ class CropViewController: NSViewController, NSDraggingDestination {
         session?.outputURL = outputUrl
         session?.outputFileType = .m4a
         session?.audioMix = audioMix
-        session?.timeRange = CMTimeRangeMake(start: CMTimeMake(value: Int64(tfFrom.doubleValue*100), timescale: 100),
-                                             duration: CMTimeMake(value: Int64((tfTo.doubleValue - tfFrom.doubleValue)*100), timescale: 100))
+        session?.timeRange = CMTimeRange(start: startTime, duration: duration)
         
         session?.exportAsynchronously(completionHandler: {
             switch session?.status {
             case .completed:
                 DispatchQueue.main.async { [weak self] in
-                    self?.reportStatus("Saved successfully")
+                    self?.reportStatus(.ok)
                 }
             case .failed:
                 DispatchQueue.main.async { [weak self] in
-                    self?.reportStatus(session?.error?.localizedDescription ?? "Unknown error")
+                    self?.reportStatus(.error(session?.error?.localizedDescription ?? "Unknown error"))
                 }
             default: break
             }

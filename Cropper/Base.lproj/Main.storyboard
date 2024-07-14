@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22690"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -732,6 +732,67 @@
                                             <action selector="onCheckBoxToggle:" target="XfG-lQ-9wD" id="TZV-C1-DZL"/>
                                         </connections>
                                     </button>
+                                    <textField hidden="YES" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ahg-Hu-ceL">
+                                        <rect key="frame" x="453" y="43" width="135" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" alignment="center" title="Saved successfully" id="9vw-Ov-MtW">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" red="0.19692416958041947" green="0.69550264380227622" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u19-Zu-8e5">
+                                        <rect key="frame" x="164" y="84" width="19" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <stepperCell key="cell" continuous="YES" alignment="left" maxValue="10" id="wIh-Eb-DZY"/>
+                                        <connections>
+                                            <action selector="stepperValueChanged:" target="XfG-lQ-9wD" id="VpY-Gv-2Mi"/>
+                                        </connections>
+                                    </stepper>
+                                    <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S87-h5-0FW">
+                                        <rect key="frame" x="283" y="84" width="19" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <stepperCell key="cell" continuous="YES" alignment="left" maxValue="10" id="d6M-QJ-HMa"/>
+                                        <connections>
+                                            <action selector="stepperValueChanged:" target="XfG-lQ-9wD" id="Z82-fI-1b4"/>
+                                        </connections>
+                                    </stepper>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Im6-I6-1n0">
+                                        <rect key="frame" x="88" y="90" width="55" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Fade in: " id="fRI-Pz-wQ9">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BPg-DK-bmf">
+                                        <rect key="frame" x="198" y="90" width="64" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Fade out: " id="dKZ-zz-gtG">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mkw-MQ-OeK">
+                                        <rect key="frame" x="138" y="90" width="27" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0.0" id="8hb-m6-AR7">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tOU-Jz-8Wm">
+                                        <rect key="frame" x="257" y="90" width="27" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="0.0" id="0Xw-RN-ees">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
                                 </subviews>
                             </customView>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="4PG-rH-9CY">
@@ -943,15 +1004,6 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ahg-Hu-ceL">
-                                <rect key="frame" x="454" y="10" width="120" height="157"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" alignment="center" id="9vw-Ov-MtW">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <slider horizontalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yQk-up-xW2">
                                 <rect key="frame" x="533" y="169" width="24" height="96"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -981,8 +1033,12 @@
                         <outlet property="slFull" destination="4PG-rH-9CY" id="dR7-Xh-65d"/>
                         <outlet property="slOutputChannelVolume" destination="Epd-Me-lCF" id="bPf-AA-5cz"/>
                         <outlet property="slVolume" destination="yQk-up-xW2" id="bAi-e2-x8q"/>
+                        <outlet property="stepperFadeIn" destination="u19-Zu-8e5" id="vQC-LJ-3J9"/>
+                        <outlet property="stepperFadeOut" destination="S87-h5-0FW" id="yJN-hd-PCd"/>
                         <outlet property="tfCurrentTime" destination="wbr-WB-id0" id="Btw-KB-peG"/>
                         <outlet property="tfDurationTime" destination="MEX-pC-EdL" id="Gno-lK-tb0"/>
+                        <outlet property="tfFadeIn" destination="Mkw-MQ-OeK" id="aoo-vQ-5at"/>
+                        <outlet property="tfFadeOut" destination="tOU-Jz-8Wm" id="KEH-fm-7wx"/>
                         <outlet property="tfFileName" destination="7li-bc-huN" id="XEW-OQ-CJi"/>
                         <outlet property="tfFolderName" destination="hRA-2U-Qis" id="Ao4-f4-A6M"/>
                         <outlet property="tfFrom" destination="TLP-1y-YqU" id="TYj-9r-q3Y"/>
