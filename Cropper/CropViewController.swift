@@ -289,21 +289,21 @@ class CropViewController: NSViewController, NSDraggingDestination {
         let endTime = CMTimeMake(value: Int64(tfTo.doubleValue*100), timescale: 100)
         let duration = CMTimeSubtract(endTime, startTime)
         
-        let volumeParam = AVMutableAudioMixInputParameters(track: track)
-        volumeParam.trackID = track.trackID
-        volumeParam.setVolume(currentVolumeCoef, at: .zero)
+        let audioParam = AVMutableAudioMixInputParameters(track: track)
+        audioParam.trackID = track.trackID
+        audioParam.setVolume(currentVolumeCoef, at: .zero)
         
         if stepperFadeIn.integerValue > 0 {
             let fadeInDuration = CMTime(seconds: stepperFadeIn.doubleValue / 2, preferredTimescale: 100)
-            volumeParam.setVolumeRamp(fromStartVolume: 0.0, toEndVolume: currentVolumeCoef, timeRange: CMTimeRange(start: startTime, duration: fadeInDuration))
+            audioParam.setVolumeRamp(fromStartVolume: 0.0, toEndVolume: currentVolumeCoef, timeRange: CMTimeRange(start: startTime, duration: fadeInDuration))
         }
         if stepperFadeOut.integerValue > 0 {
             let fadeOutDuration = CMTime(seconds: stepperFadeOut.doubleValue / 2, preferredTimescale: 100)
-            volumeParam.setVolumeRamp(fromStartVolume: currentVolumeCoef, toEndVolume: 0.0, timeRange: CMTimeRange(start: CMTimeSubtract(endTime, fadeOutDuration), duration: fadeOutDuration))
+            audioParam.setVolumeRamp(fromStartVolume: currentVolumeCoef, toEndVolume: 0.0, timeRange: CMTimeRange(start: CMTimeSubtract(endTime, fadeOutDuration), duration: fadeOutDuration))
         }
         
         let audioMix = AVMutableAudioMix()
-        audioMix.inputParameters = [volumeParam]
+        audioMix.inputParameters = [audioParam]
         
         let session = AVAssetExportSession(asset: asset, 
                                            presetName: AVAssetExportPresetAppleM4A)
