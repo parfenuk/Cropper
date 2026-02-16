@@ -7,6 +7,8 @@
 
 import Cocoa
 
+let FM = FileManager.default
+
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     

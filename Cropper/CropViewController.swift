@@ -27,8 +27,8 @@ class CropViewController: NSViewController, NSDraggingDestination {
         case error(String)
     }
     
-    let FM = FileManager.default
     let STEP = 0.05
+    let FADE_IN_OUT_STEP = 0.5
     
     var audioPlayer = AVAudioPlayer()
     var timer = Timer()
@@ -62,6 +62,10 @@ class CropViewController: NSViewController, NSDraggingDestination {
         super.viewDidLoad()
 
         underlayView.parent = self
+        
+        #if DEBUG
+        self.customHardcodedActions()
+        #endif
     }
     
     var currentVolumeCoef: Float {
@@ -243,6 +247,30 @@ class CropViewController: NSViewController, NSDraggingDestination {
         slCropped.maxValue = d2
     }
     
+    @IBAction func actSave(_ sender: NSButton) {
+        
+        saveAudio(inputPath: fullFilePath,
+                  folderPath: "\(openPanelFolderPath)/\(tfFolderName.stringValue)",
+                  fileName: tfFileName.stringValue + (sender.tag == 1 ? ".m4a" : "_A.m4a"),
+                  start: tfFrom.doubleValue,
+                  end: tfTo.doubleValue,
+                  volumeCoef: currentVolumeCoef,
+                  fadeIn: stepperFadeIn.doubleValue * FADE_IN_OUT_STEP,
+                  fadeOut: stepperFadeOut.doubleValue * FADE_IN_OUT_STEP) { [weak self] result in
+            
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self?.reportStatus(.ok)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async { [weak self] in
+                    self?.reportStatus(.error(error.localizedDescription))
+                }
+            }
+        }
+    }
+    
     func reportStatus(_ status: Status) {
         switch status {
         case .ok:
@@ -258,73 +286,6 @@ class CropViewController: NSViewController, NSDraggingDestination {
             alert.alertStyle = .informational
             alert.runModal()
         }
-    }
-    
-    @IBAction func actSave(_ sender: NSButton) {
-        
-        let folderPath = "\(openPanelFolderPath)/\(tfFolderName.stringValue)"
-        if !FM.fileExists(atPath: folderPath) {
-            do {
-                try FM.createDirectory(atPath: folderPath, withIntermediateDirectories: false)
-            } catch (let error) {
-                reportStatus(.error(error.localizedDescription))
-                return
-            }
-        }
-        
-        let writingPath = sender.tag == 1
-        ? "\(folderPath)/\(tfFileName.stringValue).m4a"
-        : "\(folderPath)/\(tfFileName.stringValue)_A.m4a"
-        
-        let inputUrl = NSURL.fileURL(withPath: fullFilePath)
-        let outputUrl = NSURL.fileURL(withPath: writingPath)
-        if FM.fileExists(atPath: writingPath) {
-            try! FM.removeItem(atPath: writingPath)
-        }
-        
-        let asset = AVURLAsset(url: inputUrl, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
-        guard let track = asset.tracks(withMediaType: .audio).first else { return }
-        
-        let startTime = CMTimeMake(value: Int64(tfFrom.doubleValue*100), timescale: 100)
-        let endTime = CMTimeMake(value: Int64(tfTo.doubleValue*100), timescale: 100)
-        let duration = CMTimeSubtract(endTime, startTime)
-        
-        let audioParam = AVMutableAudioMixInputParameters(track: track)
-        audioParam.trackID = track.trackID
-        audioParam.setVolume(currentVolumeCoef, at: .zero)
-        
-        if stepperFadeIn.integerValue > 0 {
-            let fadeInDuration = CMTime(seconds: stepperFadeIn.doubleValue / 2, preferredTimescale: 100)
-            audioParam.setVolumeRamp(fromStartVolume: 0.0, toEndVolume: currentVolumeCoef, timeRange: CMTimeRange(start: startTime, duration: fadeInDuration))
-        }
-        if stepperFadeOut.integerValue > 0 {
-            let fadeOutDuration = CMTime(seconds: stepperFadeOut.doubleValue / 2, preferredTimescale: 100)
-            audioParam.setVolumeRamp(fromStartVolume: currentVolumeCoef, toEndVolume: 0.0, timeRange: CMTimeRange(start: CMTimeSubtract(endTime, fadeOutDuration), duration: fadeOutDuration))
-        }
-        
-        let audioMix = AVMutableAudioMix()
-        audioMix.inputParameters = [audioParam]
-        
-        let session = AVAssetExportSession(asset: asset, 
-                                           presetName: AVAssetExportPresetAppleM4A)
-        session?.outputURL = outputUrl
-        session?.outputFileType = .m4a
-        session?.audioMix = audioMix
-        session?.timeRange = CMTimeRange(start: startTime, duration: duration)
-        
-        session?.exportAsynchronously(completionHandler: {
-            switch session?.status {
-            case .completed:
-                DispatchQueue.main.async { [weak self] in
-                    self?.reportStatus(.ok)
-                }
-            case .failed:
-                DispatchQueue.main.async { [weak self] in
-                    self?.reportStatus(.error(session?.error?.localizedDescription ?? "Unknown error"))
-                }
-            default: break
-            }
-        })
     }
 }
 
