@@ -11,21 +11,50 @@ import AVFoundation
 extension CropViewController {
     
     func customHardcodedActions() {
-//        let baseUrl = "/Users/miraslau/Music/_For Quiz/__Tuc_21/10. Блиц"
-//        
-//        for n in 1...10 {
+        
+//        func save(code: String, volume: Float, isVideo: Bool) {
+//            //let baseUrl = "/Users/miraslau/Music/_For Quiz/__Tuc10s/8. Клипы (Done)/"
+//            let baseUrl = "/Users/miraslau/Documents/Projects/MzgbEngine/MzgbEngine/Question Sets/Set TucTwentyTwo/" + (isVideo ? "Videos/" : "Sounds/")
+//            let file = "TucTwentyTwo\(code)." + (isVideo ? "mp4" : "m4a")
 //                        
-//            let q = URL(fileURLWithPath: "\(baseUrl)/q\(n).m4a")
-//            let siren = n < 10
-//            ? URL(fileURLWithPath: "\(baseUrl)/s\(n).m4a")
-//            : URL(fileURLWithPath: "\(baseUrl)/Siren_triple.m4a")
+//            saveVideo(inputPath: baseUrl + file,
+//                      folderPath: baseUrl + "_Volumed",
+//                      fileName: file,
+//                      start: 0,
+//                      end: 2026,
+//                      volumeCoef: volume,
+//                      completion: { result in
+//                switch result {
+//                case .success:
+//                    print("Saved \(code)")
+//                case .failure(let error):
+//                    print("Error \(code): \(error.localizedDescription)")
+//                }
+//            })
+//        }
+
+        // For Blitz
+//        for n in 1...10 {
 //            
-//            let outputA = URL(fileURLWithPath: "\(baseUrl)/TucTwentyOne0\(n)Q.m4a")
+//            let audio = URL(fileURLWithPath: baseUrl + "/q\(n).m4a")
+//            let siren = URL(fileURLWithPath: baseUrl + "/Sirens/s\(n).m4a")
+//            let output = URL(fileURLWithPath: baseUrl + "/TucTwentyTwo0\(n)Q.m4a")
 //            
-//            mergeAudios(from: [q,siren],
-//                        outputURL: outputA) { _ in
-//                print("Saved: q\(n).m4a")
-//            }
+//            mergeAudios(from: [audio, siren],
+//                        outputURL: output,
+//                        completion: { _ in
+//                print("\(n) saved")
+//            })
+//            
+//            saveAudio(inputPath: baseUrl + "/Sirens/Siren_1.m4a",
+//                      folderPath: baseUrl + "/Sirens",
+//                      fileName: "s\(n).m4a",
+//                      start: 0.0,
+//                      end: 0.46 + Double(10-n)*0.04,
+//                      volumeCoef: 1.2,
+//                      completion: { result in
+//                print("Saved: s\(n).m4a")
+//            })
 //        }
     }
 }
@@ -38,7 +67,7 @@ func saveAudio(
     fileName: String,
     start: Double,
     end: Double,
-    volumeCoef: Float,
+    volumeCoef: Float = 1.0,
     fadeIn: Double = 0.0,
     fadeOut: Double = 0.0,
     completion: @escaping (Result<Bool, Error>) -> Void
@@ -63,8 +92,13 @@ func saveAudio(
     let asset = AVURLAsset(url: inputUrl, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
     guard let track = asset.tracks(withMediaType: .audio).first else { return }
     
-    let startTime = CMTimeMake(value: Int64(start*100), timescale: 100)
-    let endTime = CMTimeMake(value: Int64(end*100), timescale: 100)
+    // Get asset duration and clamp start/end to valid bounds
+    let assetDuration = asset.duration.seconds
+    let clampedStart = max(0, min(start, assetDuration))
+    let clampedEnd = max(clampedStart, min(end, assetDuration))
+    
+    let startTime = CMTime(seconds: clampedStart, preferredTimescale: 600)
+    let endTime = CMTime(seconds: clampedEnd, preferredTimescale: 600)
     let duration = CMTimeSubtract(endTime, startTime)
     
     let audioParam = AVMutableAudioMixInputParameters(track: track)
@@ -88,6 +122,119 @@ func saveAudio(
     session?.outputURL = outputUrl
     session?.outputFileType = .m4a
     session?.audioMix = audioMix
+    session?.timeRange = CMTimeRange(start: startTime, duration: duration)
+    
+    session?.exportAsynchronously(completionHandler: {
+        switch session?.status {
+        case .completed:
+            DispatchQueue.main.async {
+                completion(.success(true))
+            }
+        case .failed:
+            DispatchQueue.main.async {
+                completion(.failure(session?.error ?? NSError(domain: "Unknown error", code: -1)))
+            }
+        default: break
+        }
+    })
+}
+
+func saveVideo(
+    inputPath: String,
+    folderPath: String,
+    fileName: String,
+    start: Double,
+    end: Double,
+    volumeCoef: Float = 1.0,
+    fadeInAudio: Double = 0.0,
+    fadeOutAudio: Double = 0.0,
+    fadeInVideo: Double = 0.0,
+    fadeOutVideo: Double = 0.0,
+    completion: @escaping (Result<Bool, Error>) -> Void
+) {
+    if !FM.fileExists(atPath: folderPath) {
+        do {
+            try FM.createDirectory(atPath: folderPath, withIntermediateDirectories: false)
+        } catch (let error) {
+            completion(.failure(error))
+            return
+        }
+    }
+    
+    let writingPath = "\(folderPath)/\(fileName)"
+    
+    let inputUrl = NSURL.fileURL(withPath: inputPath)
+    let outputUrl = NSURL.fileURL(withPath: writingPath)
+    if FM.fileExists(atPath: writingPath) {
+        try! FM.removeItem(atPath: writingPath)
+    }
+    
+    let asset = AVURLAsset(url: inputUrl, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
+    
+    // Get asset duration and clamp start/end to valid bounds
+    let assetDuration = asset.duration.seconds
+    let clampedStart = max(0, min(start, assetDuration))
+    let clampedEnd = max(clampedStart, min(end, assetDuration))
+    
+    let startTime = CMTime(seconds: clampedStart, preferredTimescale: 600)
+    let endTime = CMTime(seconds: clampedEnd, preferredTimescale: 600)
+    let duration = CMTimeSubtract(endTime, startTime)
+    
+    // Setup audio mix
+    var audioMixParams: [AVMutableAudioMixInputParameters] = []
+    if let audioTrack = asset.tracks(withMediaType: .audio).first {
+        let audioParam = AVMutableAudioMixInputParameters(track: audioTrack)
+        audioParam.trackID = audioTrack.trackID
+        audioParam.setVolume(volumeCoef, at: .zero)
+        
+        if fadeInAudio > 0 {
+            let fadeInDuration = CMTime(seconds: fadeInAudio, preferredTimescale: 100)
+            audioParam.setVolumeRamp(fromStartVolume: 0.0, toEndVolume: volumeCoef, timeRange: CMTimeRange(start: startTime, duration: fadeInDuration))
+        }
+        if fadeOutAudio > 0 {
+            let fadeOutDuration = CMTime(seconds: fadeOutAudio, preferredTimescale: 100)
+            audioParam.setVolumeRamp(fromStartVolume: volumeCoef, toEndVolume: 0.0, timeRange: CMTimeRange(start: CMTimeSubtract(endTime, fadeOutDuration), duration: fadeOutDuration))
+        }
+        
+        audioMixParams.append(audioParam)
+    }
+    
+    let audioMix = AVMutableAudioMix()
+    audioMix.inputParameters = audioMixParams
+    
+    // Setup video composition (always created to ensure proper time range mapping)
+    var videoComposition: AVMutableVideoComposition? = nil
+    if let videoTrack = asset.tracks(withMediaType: .video).first {
+        let composition = AVMutableVideoComposition()
+        composition.frameDuration = CMTime(value: 1, timescale: 30)
+        composition.renderSize = videoTrack.naturalSize
+        
+        let instruction = AVMutableVideoCompositionInstruction()
+        instruction.timeRange = CMTimeRange(start: startTime, duration: duration)
+        
+        let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
+        
+        // Apply opacity fades only if requested
+        if fadeInVideo > 0 {
+            let fadeInDuration = CMTime(seconds: fadeInVideo, preferredTimescale: 100)
+            layerInstruction.setOpacityRamp(fromStartOpacity: 0.0, toEndOpacity: 1.0, timeRange: CMTimeRange(start: startTime, duration: fadeInDuration))
+        }
+        if fadeOutVideo > 0 {
+            let fadeOutDuration = CMTime(seconds: fadeOutVideo, preferredTimescale: 100)
+            layerInstruction.setOpacityRamp(fromStartOpacity: 1.0, toEndOpacity: 0.0, timeRange: CMTimeRange(start: CMTimeSubtract(endTime, fadeOutDuration), duration: fadeOutDuration))
+        }
+        
+        instruction.layerInstructions = [layerInstruction]
+        composition.instructions = [instruction]
+        videoComposition = composition
+    }
+    
+    let session = AVAssetExportSession(asset: asset,
+                                       presetName: AVAssetExportPresetHighestQuality)
+    session?.outputURL = outputUrl
+    session?.outputFileType = .mp4
+    session?.audioMix = audioMix
+    session?.videoComposition = videoComposition
     session?.timeRange = CMTimeRange(start: startTime, duration: duration)
     
     session?.exportAsynchronously(completionHandler: {
@@ -157,6 +304,133 @@ func mergeAudios(
             
             // Export
             await exportComposition(composition, to: outputURL, audioMix: audioMix, preset: AVAssetExportPresetAppleM4A, outputFileType: .m4a, completion: completion)
+            
+        } catch {
+            completion(.failure(error))
+        }
+    }
+}
+
+func mergeVideos(
+    from videoURLs: [URL],
+    outputURL: URL,
+    fadeInAudio: Double = 0.0,
+    fadeOutAudio: Double = 0.0,
+    fadeInVideo: Double = 0.0,
+    fadeOutVideo: Double = 0.0,
+    completion: @escaping (Result<URL, Error>) -> Void
+) {
+    Task {
+        do {
+            guard !videoURLs.isEmpty else {
+                completion(.failure(NSError(domain: "No video URLs provided", code: -1)))
+                return
+            }
+            
+            // Create composition
+            let composition = AVMutableComposition()
+            
+            guard let compVideo = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid) else {
+                completion(.failure(NSError(domain: "Failed to create video track", code: -2)))
+                return
+            }
+            
+            guard let compAudio = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) else {
+                completion(.failure(NSError(domain: "Failed to create audio track", code: -3)))
+                return
+            }
+            
+            // Insert each video file sequentially
+            var currentTime = CMTime.zero
+            var videoSize: CGSize = .zero
+            var preferredTransform: CGAffineTransform = .identity
+            
+            for videoURL in videoURLs {
+                let videoAsset = AVURLAsset(url: videoURL)
+                let videoDuration = try await videoAsset.load(.duration)
+                
+                guard let videoTrack = try await videoAsset.loadTracks(withMediaType: .video).first else {
+                    completion(.failure(NSError(domain: "Video track not found in \(videoURL.lastPathComponent)", code: -4)))
+                    return
+                }
+                
+                // Store first video's size and transform for composition
+                if currentTime == .zero {
+                    videoSize = videoTrack.naturalSize
+                    preferredTransform = try await videoTrack.load(.preferredTransform)
+                }
+                
+                // Insert video at current position
+                try compVideo.insertTimeRange(
+                    CMTimeRange(start: .zero, duration: videoDuration),
+                    of: videoTrack,
+                    at: currentTime
+                )
+                
+                // Insert audio if available
+                if let audioTrack = try await videoAsset.loadTracks(withMediaType: .audio).first {
+                    try compAudio.insertTimeRange(
+                        CMTimeRange(start: .zero, duration: videoDuration),
+                        of: audioTrack,
+                        at: currentTime
+                    )
+                }
+                
+                // Move current time forward
+                currentTime = CMTimeAdd(currentTime, videoDuration)
+            }
+            
+            let totalDuration = currentTime
+            print("DUR: \(totalDuration.seconds)")
+            
+            // Create audio mix for fade effects
+            let audioMix = createAudioMixWithFades(for: compAudio, totalDuration: totalDuration, fadeIn: fadeInAudio, fadeOut: fadeOutAudio)
+            
+            // Create video composition (always, to ensure proper time mapping)
+            let videoComposition = AVMutableVideoComposition()
+            videoComposition.frameDuration = CMTime(value: 1, timescale: 30)
+            videoComposition.renderSize = videoSize
+            
+            let instruction = AVMutableVideoCompositionInstruction()
+            instruction.timeRange = CMTimeRange(start: .zero, duration: totalDuration)
+            
+            let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: compVideo)
+            layerInstruction.setTransform(preferredTransform, at: .zero)
+            
+            // Apply video opacity fades only if requested
+            if fadeInVideo > 0 {
+                let fadeInDuration = CMTime(seconds: fadeInVideo / 2, preferredTimescale: 100)
+                layerInstruction.setOpacityRamp(fromStartOpacity: 0.0, toEndOpacity: 1.0, timeRange: CMTimeRange(start: .zero, duration: fadeInDuration))
+            }
+            if fadeOutVideo > 0 {
+                let fadeOutDuration = CMTime(seconds: fadeOutVideo / 2, preferredTimescale: 100)
+                layerInstruction.setOpacityRamp(fromStartOpacity: 1.0, toEndOpacity: 0.0, timeRange: CMTimeRange(start: CMTimeSubtract(totalDuration, fadeOutDuration), duration: fadeOutDuration))
+            }
+            
+            instruction.layerInstructions = [layerInstruction]
+            videoComposition.instructions = [instruction]
+            
+            // Export
+            try? FileManager.default.removeItem(at: outputURL)
+            guard let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
+                completion(.failure(NSError(domain: "Exporter init failed", code: -5)))
+                return
+            }
+            
+            exporter.outputURL = outputURL
+            exporter.outputFileType = .mp4
+            exporter.audioMix = audioMix
+            exporter.videoComposition = videoComposition
+            exporter.shouldOptimizeForNetworkUse = true
+            
+            await exporter.export()
+            DispatchQueue.main.async {
+                switch exporter.status {
+                case .completed: completion(.success(outputURL))
+                default:
+                    completion(.failure(exporter.error ?? NSError(domain: "Export failed", code: -6)))
+                }
+            }
             
         } catch {
             completion(.failure(error))
@@ -441,8 +715,41 @@ func replaceAudio(
             // Create audio mix for fade effects
             let audioMix = createAudioMixWithFades(for: compAudio, totalDuration: videoDurationScaled, fadeIn: fadeIn, fadeOut: fadeOut)
 
+            // Create video composition (always, to ensure proper time mapping)
+            let videoComposition = AVMutableVideoComposition()
+            videoComposition.frameDuration = CMTime(value: 1, timescale: 30)
+            videoComposition.renderSize = videoTrack.naturalSize
+            
+            let instruction = AVMutableVideoCompositionInstruction()
+            instruction.timeRange = CMTimeRange(start: .zero, duration: videoDurationScaled)
+            
+            let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: compVideo)
+            layerInstruction.setTransform(try await videoTrack.load(.preferredTransform), at: .zero)
+            
+            instruction.layerInstructions = [layerInstruction]
+            videoComposition.instructions = [instruction]
+
             // Export
-            await exportComposition(composition, to: outputURL, audioMix: audioMix, preset: AVAssetExportPresetHighestQuality, outputFileType: .mp4, shouldOptimizeForNetworkUse: true, completion: completion)
+            try? FileManager.default.removeItem(at: outputURL)
+            guard let exporter = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) else {
+                completion(.failure(NSError(domain: "Exporter init failed", code: -4)))
+                return
+            }
+            
+            exporter.outputURL = outputURL
+            exporter.outputFileType = .mp4
+            exporter.audioMix = audioMix
+            exporter.videoComposition = videoComposition
+            exporter.shouldOptimizeForNetworkUse = true
+            
+            await exporter.export()
+            DispatchQueue.main.async {
+                switch exporter.status {
+                case .completed: completion(.success(outputURL))
+                default:
+                    completion(.failure(exporter.error ?? NSError(domain: "Export failed", code: -2)))
+                }
+            }
 
         } catch {
             completion(.failure(error))
@@ -524,6 +831,20 @@ func replaceTailOfVideoAWithVideoB(
     // Create audio mix for fade effects
     let audioMix = createAudioMixWithFades(for: compAudio, totalDuration: durationA, fadeIn: fadeIn, fadeOut: fadeOut)
 
+    // Create video composition (always, to ensure proper time mapping)
+    let videoComposition = AVMutableVideoComposition()
+    videoComposition.frameDuration = CMTime(value: 1, timescale: 30)
+    videoComposition.renderSize = videoATrack.naturalSize
+    
+    let instruction = AVMutableVideoCompositionInstruction()
+    instruction.timeRange = CMTimeRange(start: .zero, duration: durationA)
+    
+    let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: compVideo)
+    layerInstruction.setTransform(videoATrack.preferredTransform, at: .zero)
+    
+    instruction.layerInstructions = [layerInstruction]
+    videoComposition.instructions = [instruction]
+
     // Export result
     try? FileManager.default.removeItem(at: outputURL)
 
@@ -536,6 +857,7 @@ func replaceTailOfVideoAWithVideoB(
     exporter.outputFileType = .mp4
     exporter.shouldOptimizeForNetworkUse = true
     exporter.audioMix = audioMix
+    exporter.videoComposition = videoComposition
 
     exporter.exportAsynchronously {
         DispatchQueue.main.async {
@@ -615,4 +937,166 @@ func exportComposition(
             completion(.failure(exporter.error ?? NSError(domain: "Export failed", code: -5)))
         }
     }
+}
+
+/// Offline “old player” effect:
+/// - Speed wobble via AVAudioUnitVarispeed (changes tempo + pitch together, like tape).
+/// - Extra independent pitch wobble via AVAudioUnitTimePitch (pitch in cents, without tempo change).
+///
+/// Note: Output is easiest as .m4a/.wav/.caf. Writing MP3 is not supported directly by AVAudioFile in a simple way.
+func applyWowFlutter(
+    inputURL: URL,
+    outputURL: URL,
+    minSpeed: Float,
+    maxSpeed: Float,
+    minPitchCents: Float,
+    maxPitchCents: Float,
+    waveLengthSeconds: Double,
+    flutterAmount: Float = 0.0,          // 0...1 (adds faster small jitter mainly to pitch)
+    maxFrameCount: AVAudioFrameCount = 4096,
+    progress: ((Double) -> Void)? = nil  // 0...1
+) {
+
+    guard waveLengthSeconds > 0 else {
+        print("WOWERR: waveLengthSeconds must be > 0")
+        return
+    }
+    guard minSpeed > 0, maxSpeed > 0 else {
+        print("WOWERR: minSpeed/maxSpeed must be > 0")
+        return
+    }
+    
+    guard let inputFile = try? AVAudioFile(forReading: inputURL) else {
+        print("WOWERR: can't open input")
+        return
+    }
+
+    let inputFormat = inputFile.processingFormat
+    let sampleRate = inputFormat.sampleRate
+    let channelCount = Int(inputFormat.channelCount)
+
+    let totalFrames = AVAudioFramePosition(inputFile.length)
+    guard totalFrames > 0 else {
+        print("WOWERR: Input file has zero length.")
+        return
+    }
+
+    // Output settings based on extension
+    let ext = outputURL.pathExtension.lowercased()
+    let outputSettings: [String: Any]
+    outputSettings = [
+        AVFormatIDKey: kAudioFormatMPEG4AAC,
+        AVSampleRateKey: sampleRate,
+        AVNumberOfChannelsKey: channelCount,
+        AVEncoderBitRateKey: 192_000
+    ]
+
+    // Remove existing output if any
+    try? FileManager.default.removeItem(at: outputURL)
+
+    guard let outputFile = try? AVAudioFile(forWriting: outputURL, settings: outputSettings) else {
+        print("WOWERR: Can't create output")
+        return
+    }
+
+    // Build engine: player -> varispeed -> timePitch -> mainMixer
+    let engine = AVAudioEngine()
+    let player = AVAudioPlayerNode()
+    let varispeed = AVAudioUnitVarispeed()
+    let timePitch = AVAudioUnitTimePitch()
+
+    engine.attach(player)
+    engine.attach(varispeed)
+    engine.attach(timePitch)
+
+    engine.connect(player, to: varispeed, format: inputFormat)
+    engine.connect(varispeed, to: timePitch, format: inputFormat)
+    engine.connect(timePitch, to: engine.mainMixerNode, format: inputFormat)
+
+    let renderFormat = engine.mainMixerNode.outputFormat(forBus: 0)
+
+    // Manual rendering
+    try? engine.enableManualRenderingMode(.offline, format: renderFormat, maximumFrameCount: maxFrameCount)
+    try? engine.start()
+
+    player.scheduleFile(inputFile, at: nil)
+    player.play()
+
+    // Helpers
+    @inline(__always) func clamp(_ x: Float, _ a: Float, _ b: Float) -> Float { max(a, min(b, x)) }
+    @inline(__always) func lerp(_ a: Float, _ b: Float, _ t01: Float) -> Float { a + (b - a) * t01 }
+    @inline(__always) func sine01(_ phase: Double) -> Float { Float((sin(phase) + 1.0) * 0.5) }
+
+    // Safe clamps
+    let minSpeedC = clamp(minSpeed, 0.25, 4.0)
+    let maxSpeedC = clamp(maxSpeed, 0.25, 4.0)
+    let minPitchC = clamp(minPitchCents, -2400, 2400)
+    let maxPitchC = clamp(maxPitchCents, -2400, 2400)
+    let flutterC = clamp(flutterAmount, 0, 1)
+
+    // LFO
+    let wowOmega = 2.0 * Double.pi / waveLengthSeconds
+    let flutterHz = 8.0
+    let flutterOmega = 2.0 * Double.pi * flutterHz
+
+    let buffer = AVAudioPCMBuffer(
+        pcmFormat: engine.manualRenderingFormat,
+        frameCapacity: engine.manualRenderingMaximumFrameCount
+    )!
+
+    var writtenFrames: AVAudioFramePosition = 0
+
+    while engine.manualRenderingSampleTime < totalFrames {
+        let tSeconds = Double(engine.manualRenderingSampleTime) / sampleRate
+
+        // speed LFO (0..1)
+        let wowT = sine01(wowOmega * tSeconds)
+        let speed = lerp(minSpeedC, maxSpeedC, wowT)
+
+        // pitch LFO (0..1) with phase offset
+        let pitchT = sine01(wowOmega * tSeconds + Double.pi * 0.35)
+        var pitch = lerp(minPitchC, maxPitchC, pitchT)
+
+        // Optional flutter adds small fast jitter to pitch
+        if flutterC > 0 {
+            let fl = Float(sin(flutterOmega * tSeconds)) // -1..1
+            let pitchSpan = abs(maxPitchC - minPitchC)
+            let flutterDepth = max(2, pitchSpan * 0.15) * flutterC
+            pitch += fl * flutterDepth
+        }
+
+        varispeed.rate = speed
+        timePitch.pitch = pitch
+
+        let framesToRender = min(
+            maxFrameCount,
+            AVAudioFrameCount(totalFrames - engine.manualRenderingSampleTime)
+        )
+
+        guard let status = try? engine.renderOffline(framesToRender, to: buffer) else {
+            print("WOWERR: failed to render offline")
+            return
+        }
+
+        switch status {
+        case .success:
+            try? outputFile.write(from: buffer)
+            writtenFrames += AVAudioFramePosition(buffer.frameLength)
+            progress?(min(1.0, Double(writtenFrames) / Double(totalFrames)))
+
+        case .insufficientDataFromInputNode, .cannotDoInCurrentContext:
+            // Try again next iteration
+            continue
+
+        case .error:
+            print("WOWERR: renderOffline returned .error")
+
+        @unknown default:
+            print("WOWERR: renderOffline returned unknown status")
+        }
+    }
+
+    player.stop()
+    engine.stop()
+    engine.disableManualRenderingMode()
 }
